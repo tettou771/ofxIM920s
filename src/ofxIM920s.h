@@ -2,7 +2,6 @@
 #define __ofxim920s_h__
 
 #include "ofMain.h"
-#include <glm\detail\type_vec3.hpp>
 
 class ofxIM920s : public ofThread {
 public:
