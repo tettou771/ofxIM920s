@@ -2,6 +2,7 @@
 #define __ofxim920s_h__
 
 #include "ofMain.h"
+#include <glm\detail\type_vec3.hpp>
 
 class ofxIM920s : public ofThread {
 public:
@@ -10,6 +11,11 @@ public:
 		Character // ECIO
 	};
 
+	struct EventArgs {
+		unsigned int from;
+		string type;
+		string payload;
+	};
 
 	ofxIM920s();
 	~ofxIM920s();
@@ -28,6 +34,8 @@ public:
 	bool sendMessage(unsigned int _nodeId, string _msg, bool _async = false);
 	bool bloadcastMessage(string _msg, bool _async = false);
 
+	ofEvent<EventArgs> events;
+
 private:
 	void updateSerial();
 	void messageReceived(string _msg);
@@ -41,6 +49,9 @@ private:
 	ofSerial serial;
 	string serialReceived;
 	string receivedResponse;
+
+	void notifyEvent(int _from, string _type, string _payload);
+	void notifyEvent(EventArgs _args);
 
 	const string tag = "ofxIM920s";
 

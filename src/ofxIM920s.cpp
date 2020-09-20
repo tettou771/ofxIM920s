@@ -156,6 +156,8 @@ void ofxIM920s::messageReceived(string _msg) {
 					payload = splitColon[1];
 				}
 
+				notifyEvent(sendNode, msgType, payload);
+
 				ofLogNotice(tag) << "Message from: " << sendNode << " payload: " << payload;
 			}
 			else {
@@ -199,4 +201,16 @@ bool ofxIM920s::waitForResponse() {
 	bool result = receivedResponse == "OK";
 	receivedResponse = "";
 	return result;
+}
+
+void ofxIM920s::notifyEvent(int _from, string _type, string _payload) {
+	auto args = EventArgs();
+	args.from = _from;
+	args.type = _type;
+	args.payload = _payload;
+	notifyEvent(args);
+}
+
+void ofxIM920s::notifyEvent(EventArgs _args) {
+	ofNotifyEvent(events, _args);
 }
